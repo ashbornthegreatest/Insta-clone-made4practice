@@ -9,7 +9,9 @@
 
     <script>
       const params = new URLSearchParams(window.location.search);
-      const token = params.get("token");
+      const token = new URLSearchParams(window.location.search).get("token");
+
+      console.log("TOKEN:", token);
 
       if (!token) {
         document.body.innerHTML = "<h1>No token. Go login 😤</h1>";

@@ -3,6 +3,8 @@ from flask_cors import CORS
 import uuid
 import os
 
+FRONTEND_URL = "https://your-vercel-site.vercel.app"
+
 app = Flask(__name__)
 CORS(app)
 
@@ -44,7 +46,7 @@ def login():
 
         return jsonify({
             "success": True,
-            "redirect": f"/dashboard.html?token={token}"
+            "redirect": f"{FRONTEND_URL}/dashboard.html?token={token}"
         })
 
     else:
@@ -53,7 +55,7 @@ def login():
 
         return jsonify({
             "success": False,
-            "redirect": "/failed.html"
+            "redirect": f"{FRONTEND_URL}/failed.html"
         })
 
 
