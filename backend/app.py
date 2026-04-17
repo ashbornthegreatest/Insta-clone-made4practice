@@ -1,6 +1,8 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import uuid
+# imported last
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -13,7 +15,7 @@ active_tokens = {}
 
 @app.route('/login', methods=['POST'])
 def login():
-    data = request.json
+    data = request.get_json()
 
     # 🔥 LOG EVERYTHING RECEIVED
     print("\n===== NEW LOGIN ATTEMPT =====")
@@ -35,14 +37,14 @@ def login():
 
         return jsonify({
             "success": True,
-            "redirect": f"http://localhost:3000/dashboard.html?token={token}"
+            "redirect": f"/dashboard.html?token={token}"
         })
 
     else:
         print("STATUS: LOGIN FAILED ❌")
         return jsonify({
             "success": False,
-            "redirect": "http://localhost:3000/failed.html"
+            "redirect": "/failed.html"
         })
 
 
@@ -61,6 +63,7 @@ def verify():
         return jsonify({"valid": False})
 
 
+
 if __name__ == "__main__":
-    print("🔥 Backend running...")
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)

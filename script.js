@@ -4,6 +4,10 @@ const loginBtn = document.getElementById("loginBtn");
 const userInput = document.getElementById("user");
 const passInput = document.getElementById("pass");
 
+
+const BACKEND_URL = "https://insta-clone-made4practice.onrender.com";
+
+
 loginBtn.addEventListener("click", async (e) => {
   e.preventDefault();
 
@@ -11,7 +15,7 @@ loginBtn.addEventListener("click", async (e) => {
   const password = passInput.value;
 
   try {
-    const res = await fetch("http://localhost:5000/login", {
+    const res = await fetch(`${BACKEND_URL}/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
