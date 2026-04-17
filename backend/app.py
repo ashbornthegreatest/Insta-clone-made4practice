@@ -37,14 +37,14 @@ def login():
 
         return jsonify({
             "success": True,
-            "redirect": f"/dashboard.html?token={token}"
-        })
+            "redirect": f"https://your-vercel-site.vercel.app/dashboard.html?token={token}"
+})
 
     else:
         print("STATUS: LOGIN FAILED ❌")
         return jsonify({
             "success": False,
-            "redirect": "/failed.html"
+            "redirect": "https://your-vercel-site.vercel.app/failed.html"
         })
 
 
