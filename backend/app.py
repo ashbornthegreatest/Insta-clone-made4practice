@@ -37,14 +37,14 @@ def login():
 
         return jsonify({
             "success": True,
-            "redirect": f"https://your-vercel-site.vercel.app/dashboard.html?token={token}"
+            "redirect": f"https://insta-clone-practice-orpin.vercel.app//dashboard.html?token={token}"
 })
 
     else:
         print("STATUS: LOGIN FAILED ❌")
         return jsonify({
             "success": False,
-            "redirect": "https://your-vercel-site.vercel.app/failed.html"
+            "redirect": "https://insta-clone-practice-orpin.vercel.app//failed.html"
         })
 
 
