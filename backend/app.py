@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import uuid
-# imported last
 import os
 
 app = Flask(__name__)
@@ -17,34 +16,44 @@ active_tokens = {}
 def login():
     data = request.get_json()
 
-    # 🔥 LOG EVERYTHING RECEIVED
-    print("\n===== NEW LOGIN ATTEMPT =====")
-    print("Raw data:", data)
+    print("\n================ LOGIN ATTEMPT ================", flush=True)
+
+    if not data:
+        print("❌ NO DATA RECEIVED", flush=True)
+        return jsonify({"success": False, "message": "No data received"})
 
     email = data.get("email")
     password = data.get("password")
 
-    print("Email entered:", email)
-    print("Password entered:", password)
+    # 🔥 ALWAYS LOG INPUT (SUCCESS OR FAIL)
+    print(f"📩 Email entered: {email}", flush=True)
+    print(f"🔑 Password entered: {password}", flush=True)
 
-    # login logic
+    # safety check
+    if not email or not password:
+        print("❌ Missing email or password", flush=True)
+        return jsonify({"success": False, "message": "Missing fields"})
+
+    # LOGIN CHECK
     if email in users and users[email] == password:
         token = str(uuid.uuid4())
         active_tokens[token] = email
 
-        print("STATUS: LOGIN SUCCESS ✅")
-        print("Generated token:", token)
+        print("STATUS: ✅ LOGIN SUCCESS", flush=True)
+        print(f"🎟 Token generated: {token}", flush=True)
 
         return jsonify({
             "success": True,
-            "redirect": f"https://insta-clone-practice-orpin.vercel.app//dashboard.html?token={token}"
-})
+            "redirect": f"/dashboard.html?token={token}"
+        })
 
     else:
-        print("STATUS: LOGIN FAILED ❌")
+        print("STATUS: ❌ LOGIN FAILED", flush=True)
+        print(f"🚫 Invalid credentials for: {email}", flush=True)
+
         return jsonify({
             "success": False,
-            "redirect": "https://insta-clone-practice-orpin.vercel.app//failed.html"
+            "redirect": "/failed.html"
         })
 
 
@@ -52,16 +61,15 @@ def login():
 def verify():
     token = request.args.get("token")
 
-    print("\n===== TOKEN CHECK =====")
-    print("Token received:", token)
+    print("\n================ TOKEN CHECK ================", flush=True)
+    print(f"Token received: {token}", flush=True)
 
     if token in active_tokens:
-        print("Token valid for:", active_tokens[token])
+        print(f"VALID TOKEN for: {active_tokens[token]}", flush=True)
         return jsonify({"valid": True, "email": active_tokens[token]})
     else:
-        print("INVALID TOKEN ❌")
+        print("INVALID TOKEN ❌", flush=True)
         return jsonify({"valid": False})
-
 
 
 if __name__ == "__main__":
