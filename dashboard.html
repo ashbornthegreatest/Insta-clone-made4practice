@@ -16,7 +16,7 @@
       if (!token) {
         document.body.innerHTML = "<h1>No token. Go login 😤</h1>";
       } else {
-        fetch(`http://localhost:5000/verify?token=${token}`)
+        fetch(`https://insta-clone-practice-orpin.vercel.app/verify?token=${token}`)
           .then(res => res.json())
           .then(data => {
             if (data.valid) {
